@@ -61,7 +61,7 @@ def add_id():
     perc = request.args['perc']
 
 
-    query = "INSERT INTO `gdgu`(`uid`, `field1`, `field2`, `field3`, `field4`) VALUES(NULL, '"+oname+"', '"+contactno+"',  '"+students+"',  '"+perc+"')"
+    query = "INSERT INTO `gdgu`(field1`, `field2`, `field3`, `field4`) VALUES ('"+oname+"', '"+contactno+"',  '"+students+"',  '"+perc+"')"
 
     with engine.connect() as con:
         rs = con.execute(query)

@@ -46,7 +46,7 @@ def export():
 
 @app.route('/delete/<id>', methods=['GET', 'POST'])
 def delete_id(id):
-    query = "DELETE FROM `gdgu` WHERE `uid` = " + id
+    query = "DELETE FROM gdgu WHERE uid = " + id
 
     with engine.connect() as con:
         rs = con.execute(query)
@@ -61,7 +61,7 @@ def add_id():
     perc = request.args['perc']
 
 
-    query = "INSERT INTO `gdgu` (`field1`, `field2`, `field3`, `field4`) VALUES ('"+oname+"', '"+contactno+"',  '"+students+"',  '"+perc+"')"
+    query = "INSERT INTO gdgu (field1, field2, field3, field4) VALUES ('"+oname+"', '"+contactno+"',  '"+students+"',  '"+perc+"')"
 
     with engine.connect() as con:
         rs = con.execute(query)
@@ -80,7 +80,7 @@ def add_serv():
 @app.route('/edit/<id>', methods=['GET', 'POST'])
 def edit_serv(id):
 
-    query = 'SELECT `uid`, `field1`, `field2`, `field3`, `field4` FROM `gdgu` WHERE `uid`="' + id + '"'
+    query = 'SELECT uid, field1, field2, field3, field4 FROM gdgu WHERE uid="' + id + '"'
     
     data = {
     }
@@ -106,7 +106,7 @@ def edit_id():
     students = request.args['students']
     perc = request.args['perc']
 
-    query = "UPDATE `gdgu` SET `field1` = '" +oname+ "', `field2` = '" +contactno+ "', `field3` = '" +students+ "', `field4` = '" +perc+ "' WHERE `gdgu`.`uid` = '" + id + "'"
+    query = "UPDATE gdgu SET field1 = '" +oname+ "', field2 = '" +contactno+ "', field3 = '" +students+ "', field4 = '" +perc+ "' WHERE gdgu.uid = '" + id + "'"
     with engine.connect() as con:
         rs = con.execute(query)
     return redirect(url_for('index'))

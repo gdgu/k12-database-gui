@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GD Goenka</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.min.css">
+    <style>
+        .introjs-tooltip {
+            max-width: 600px;
+            width:600px;
+            padding: 20px;
+        }
+        h4 {
+            padding-bottom:15px
+        }
+        .footer-sticky {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            /* Set the fixed height of the footer here */
+            height: 60px;
+            line-height: 60px; /* Vertically center the text there */
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+
+{% block content %}
+
+    <div class="container" id="gridbox">
+
+        <h1>
+            G. D. Goenka
+        </h1>
+
+        {% block app_content %}{% endblock %}
+        
+        
+        <button type="button" onclick="delete_row()" >Delete</button>
+        <button type="button" onclick="add_row()" >Add</button>
+        <button type="button" onclick="edit_row()" >Edit</button>
+
+
+    </div>
+
+{% endblock %}
+
+
+<script>
+    
+    
+function delete_row() {
+$('.success').each(function() {
+    var txt = $(this).children().eq(1).text();
+    console.log(txt);
+    
+var settings = {
+  "url": "http://127.0.0.1:5005/delete/" + txt,
+  "method": "POST",
+  "timeout": 0,
+};
+
+$.ajax(settings).done(function (response) {
+});
+
+window.location.reload();
+
+});}
+
+function add_row() {
+    window.location.href = "../../add";
+}
+
+function edit_row() {
+    $('.success').each(function() {
+        var txt = $(this).children().eq(1).text();
+        console.log(txt);
+        window.location.href = "../../edit/" + txt + "?id=" + txt;
+    });
+}
+    
+    
+var _dcq = _dcq || [];
+var _dcs = _dcs || {};
+_dcs.account = '8708792';
+
+(function() {
+    var dc = document.createElement('script');
+    dc.type = 'text/javascript'; dc.async = true;
+    dc.src = '//tag.getdrip.com/8708792.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(dc, s);
+})();
+
+$(window).on("load", function(){
+    $('#orders').jqGrid('setGridWidth', ($("#gridbox").width()));
+});
+</script>
+
+</body>
+</html>

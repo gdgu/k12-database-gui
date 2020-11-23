@@ -14,14 +14,16 @@ engine = sqlalchemy.create_engine(
 
 @app.route('/')
 def index():
-    grid = PythonGrid('SELECT * FROM gdgu', 'uid', 'gdgu')
+    grid = PythonGrid('SELECT * FROM k12', 'uid', 'k12')
 
     grid.set_caption('Details')
-    grid.set_col_title('uid', 'ID')
-    grid.set_col_title('field1', 'OWNER/S NAME')
-    grid.set_col_title('field2', 'CONTACT NO.')
-    grid.set_col_title('field3', 'STUDENT STRENGTH AS ON MAY 2019')
-    grid.set_col_title('field4', '% OF EDUCATION SERVICE FEE')
+    grid.set_col_title('uid', 'Id')
+    grid.set_col_title('field1', 'School Name')
+    grid.set_col_title('field2', 'City')
+    grid.set_col_title('field3', 'Owners Name')
+    grid.set_col_title('field4', 'Contact Number')
+    grid.set_col_title('field5', 'Student Strength as on May 2019')
+    grid.set_col_title('field6', '% of Education Service Fee')
     grid.set_pagesize(20)
     grid.set_dimension(800, 400)
     grid.enable_search(True)
@@ -29,24 +31,24 @@ def index():
     grid.enable_pagecount(True)
     grid.enable_export()
 
-    return render_template('grid.html', title='GDGU', grid=grid)
+    return render_template('grid.html', title='K12', grid=grid)
 
 
 
 @app.route('/data', methods=['GET', 'POST'])
 def data():
-    data = PythonGridDbData('SELECT * FROM gdgu')
+    data = PythonGridDbData('SELECT * FROM k12')
     rv = data.getData()
     return rv 
 
 @app.route('/export', methods=['GET', 'POST'])
 def export():
-    exp = PythonGridDbExport('SELECT * FROM gdgu')
+    exp = PythonGridDbExport('SELECT * FROM k12')
     return exp.export()
 
 @app.route('/delete/<id>', methods=['GET', 'POST'])
 def delete_id(id):
-    query = "DELETE FROM gdgu WHERE uid = " + id
+    query = "DELETE FROM k12 WHERE uid = " + id
 
     with engine.connect() as con:
         rs = con.execute(query)
@@ -61,7 +63,7 @@ def add_id():
     perc = request.args['perc']
 
 
-    query = "INSERT INTO gdgu (field1, field2, field3, field4) VALUES ('"+oname+"', '"+contactno+"',  '"+students+"',  '"+perc+"')"
+    query = "INSERT INTO k12 (field1, field2, field3, field4) VALUES ('"+oname+"', '"+contactno+"',  '"+students+"',  '"+perc+"')"
 
     with engine.connect() as con:
         rs = con.execute(query)
@@ -80,10 +82,9 @@ def add_serv():
 @app.route('/edit/<id>', methods=['GET', 'POST'])
 def edit_serv(id):
 
-    query = 'SELECT uid, field1, field2, field3, field4 FROM gdgu WHERE uid="' + id + '"'
+    query = 'SELECT uid, field1, field2, field3, field4 FROM k12 WHERE uid="' + id + '"'
     
-    data = {
-    }
+    data = {}
 
     with engine.connect() as con:
         rs = con.execute(query)
@@ -105,7 +106,7 @@ def edit_id():
     students = request.args['students']
     perc = request.args['perc']
 
-    query = "UPDATE gdgu SET field1 = '" +oname+ "', field2 = '" +contactno+ "', field3 = '" +students+ "', field4 = '" +perc+ "' WHERE gdgu.uid = '" + id + "'"
+    query = "UPDATE k12 SET field1 = '" +oname+ "', field2 = '" +contactno+ "', field3 = '" +students+ "', field4 = '" +perc+ "' WHERE k12.uid = '" + id + "'"
     with engine.connect() as con:
         rs = con.execute(query)
     return redirect(url_for('index'))

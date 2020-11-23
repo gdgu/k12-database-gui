@@ -5,14 +5,18 @@
 <h2>Add Data</h2>
 
 <form action="../../add/sub" method="get">
+  <label for="sname">School Name:</label><br>
+  <input type="text" id="sname" name="sname" value="{{data.field1}}"> <br>
+  <label for="city">City:</label><br>
+  <input type="text" id="city" name="city" value="{{data.field2}}"> <br>
   <label for="oname">Owners Name:</label><br>
-  <input type="text" id="oname" name="oname" value="{{data.field1}}"> <br>
+  <input type="text" id="oname" name="oname" value="{{data.field3}}"> <br>
   <label for="contactno">Contact Number:</label><br>
-  <input type="text" id="contactno" name="contactno" value="{{data.field2}}"> <br>
-  <label for="students">Student Strength:</label><br>
-  <input type="text" id="students" name="students" value="{{data.field3}}">  <br>
+  <input type="text" id="contactno" name="contactno" value="{{data.field4}}"> <br>
+  <label for="students">Student Strength as on May 2019:</label><br>
+  <input type="text" id="students" name="students" value="{{data.field5}}">  <br>
   <label for="perc">% of Education Service Fee :</label><br>
-  <input type="text" id="perc" name="perc" value="{{data.field4}}"><br> <br>    
+  <input type="text" id="perc" name="perc" value="{{data.field6}}"><br> <br>    
   <input type="submit" value="Submit">
 </form> 
 

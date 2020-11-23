@@ -57,13 +57,16 @@ def delete_id(id):
 @app.route('/add/sub', methods=['GET','POST'])
 def add_id():
     
+    sname = request.args['sname']
+    city = request.args['city']
     oname = request.args['oname']
     contactno = request.args['contactno']
     students = request.args['students']
     perc = request.args['perc']
 
 
-    query = "INSERT INTO k12 (field1, field2, field3, field4) VALUES ('"+oname+"', '"+contactno+"',  '"+students+"',  '"+perc+"')"
+    query = """INSERT INTO k12 (field1, field2, field3, field4, field5, field6) VALUES
+    ('%s', '%s', '%s', '%s', '%s', '%s')""" % (sname, city, oname, contactno, students, perc)
 
     with engine.connect() as con:
         rs = con.execute(query)
@@ -82,7 +85,7 @@ def add_serv():
 @app.route('/edit/<id>', methods=['GET', 'POST'])
 def edit_serv(id):
 
-    query = 'SELECT uid, field1, field2, field3, field4 FROM k12 WHERE uid="' + id + '"'
+    query = 'SELECT * FROM k12 WHERE uid="' + id + '"'
     
     data = {}
 
@@ -94,6 +97,8 @@ def edit_serv(id):
             data["field2"] = x[1]
             data["field3"] = x[2]
             data["field4"] = x[3]
+            data["field5"] = x[4]
+            data["field6"] = x[5]
 
     return render_template('edit.html', data=data)
 

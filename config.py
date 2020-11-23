@@ -11,7 +11,7 @@ class Config(object):
     db_creds = urlparse(DB_PATH)
     
     # postgres
-    PYTHONGRID_DB_HOSTNAME = db_creds.hostname + ':' + db_creds.port
+    PYTHONGRID_DB_HOSTNAME = db_creds.hostname + ':' + str(db_creds.port)
     PYTHONGRID_DB_NAME = db_creds.path.split('/')[1]
     PYTHONGRID_DB_USERNAME = db_creds.username
     PYTHONGRID_DB_PASSWORD = db_creds.password

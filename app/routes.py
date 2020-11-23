@@ -19,7 +19,7 @@ def index():
     grid.set_caption('Details')
     grid.set_col_title('uid', 'Id')
     grid.set_col_title('field1', 'School Name')
-    grid.set_col_title('field2', 'City')
+    grid.set_col_title('field2', 'State')
     grid.set_col_title('field3', 'Owners Name')
     grid.set_col_title('field4', 'Contact Number')
     grid.set_col_title('field5', 'Student Strength as on May 2019')

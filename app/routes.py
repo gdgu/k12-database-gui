@@ -75,17 +75,14 @@ def add_id():
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_serv():
-    
-    data = {
-        
-    }
+    data = {}
     return render_template('add.html', data=data)
 
 
 @app.route('/edit/<id>', methods=['GET', 'POST'])
 def edit_serv(id):
 
-    query = 'SELECT * FROM k12 WHERE uid="' + id + '"'
+    query = 'SELECT * FROM k12 WHERE uid=' + id
     
     data = {}
 
@@ -93,25 +90,32 @@ def edit_serv(id):
         rs = con.execute(query)
 
         for x in rs:
-            data["field1"] = x[0]
-            data["field2"] = x[1]
-            data["field3"] = x[2]
-            data["field4"] = x[3]
-            data["field5"] = x[4]
-            data["field6"] = x[5]
+            data["id"] = x[0]
+            data["field1"] = x[1]
+            data["field2"] = x[2]
+            data["field3"] = x[3]
+            data["field4"] = x[4]
+            data["field5"] = x[5]
+            data["field6"] = x[6]
 
     return render_template('edit.html', data=data)
 
 
 @app.route('/edit/sub', methods=['GET', 'POST'])
 def edit_id():
-    id = request.args['id']
+    idx = request.args['id']
+    sname = request.args['sname']
+    city = request.args['city']
     oname = request.args['oname']
     contactno = request.args['contactno']
     students = request.args['students']
     perc = request.args['perc']
 
-    query = "UPDATE k12 SET field1 = '" +oname+ "', field2 = '" +contactno+ "', field3 = '" +students+ "', field4 = '" +perc+ "' WHERE k12.uid = '" + id + "'"
+    query = """UPDATE k12 SET 
+    field1 = '%s', field2 = '%s', field3 = '%s', field4 = '%s', field5 = '%s', field6 = '%s'
+    WHERE uid = %s"""
+    query = query % (sname, city, oname, contactno, students, perc, idx)
+
     with engine.connect() as con:
         rs = con.execute(query)
     return redirect(url_for('index'))

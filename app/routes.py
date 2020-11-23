@@ -25,7 +25,7 @@ def index():
     grid.set_col_title('field5', 'Student Strength as on May 2019')
     grid.set_col_title('field6', '% of Education Service Fee')
     grid.set_pagesize(20)
-    grid.set_dimension(800, 400)
+    grid.set_dimension(1000, 400)
     grid.enable_search(True)
     grid.enable_rownumbers(True)
     grid.enable_pagecount(True)

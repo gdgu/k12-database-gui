@@ -110,6 +110,7 @@ def edit_serv(id):
             data["field4"] = x[4]
             data["field5"] = x[5]
             data["field6"] = x[6]
+            data["field8"] = x[8]
 
     return render_template('edit.html', data=data)
 

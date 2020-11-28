@@ -14,7 +14,8 @@ engine = sqlalchemy.create_engine(
 
 @app.route('/')
 def index():
-    grid = PythonGrid('SELECT * FROM k12', 'uid', 'k12')
+    grid = PythonGrid('SELECT * FROM k12 ORDER BY field1 ASC', 'uid', 'k12')
+
 
     grid.set_caption('Details')
     grid.set_col_title('uid', 'Id')
@@ -22,8 +23,10 @@ def index():
     grid.set_col_title('field2', 'State')
     grid.set_col_title('field3', 'Owners Name')
     grid.set_col_title('field4', 'Contact Number')
-    grid.set_col_title('field5', 'Student Strength as on May 2019')
-    grid.set_col_title('field6', '% of Education Service Fee')
+    grid.set_col_title('field5', 'Student Strength')
+    grid.set_col_title('field6', 'Annual Fees')
+    grid.set_col_title('field7', 'Total Fees Amount')
+    grid.set_col_title('field8', '% of Education Service Fee')
     grid.set_col_hidden(['uid'])
     grid.set_pagesize(50)
     grid.set_dimension(1000, 400)
@@ -38,13 +41,13 @@ def index():
 
 @app.route('/data', methods=['GET', 'POST'])
 def data():
-    data = PythonGridDbData('SELECT * FROM k12')
+    data = PythonGridDbData('SELECT * FROM k12 ORDER BY field1 ASC')
     rv = data.getData()
     return rv 
 
 @app.route('/export', methods=['GET', 'POST'])
 def export():
-    exp = PythonGridDbExport('SELECT * FROM k12')
+    exp = PythonGridDbExport('SELECT * FROM k12 ORDER BY field1 ASC')
     return exp.export()
 
 @app.route('/delete/<id>', methods=['GET', 'POST'])
@@ -64,10 +67,19 @@ def add_id():
     contactno = request.args['contactno']
     students = request.args['students']
     perc = request.args['perc']
+    afees = request.args['afees']
+
+    totalfees = "ERROR"
+    try:
+        totalfees =  int(students) * int(afees)
+    except:
+        pass
 
 
-    query = """INSERT INTO k12 (field1, field2, field3, field4, field5, field6) VALUES
-    ('%s', '%s', '%s', '%s', '%s', '%s')""" % (sname, city, oname, contactno, students, perc)
+
+
+    query = """INSERT INTO k12 (field1, field2, field3, field4, field5, field6, field7, field8) VALUES
+    ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')""" % (sname, city, oname, contactno, students,afees, totalfees, perc)
 
     with engine.connect() as con:
         rs = con.execute(query)
@@ -111,11 +123,15 @@ def edit_id():
     contactno = request.args['contactno']
     students = request.args['students']
     perc = request.args['perc']
+    afees = request.args['afees']
+
+    totalfees =  int(students) * int(afees)
+
 
     query = """UPDATE k12 SET 
-    field1 = '%s', field2 = '%s', field3 = '%s', field4 = '%s', field5 = '%s', field6 = '%s'
+    field1 = '%s', field2 = '%s', field3 = '%s', field4 = '%s', field5 = '%s', field6 = '%s' , field7 = '%s' , field8 = '%s' 
     WHERE uid = %s"""
-    query = query % (sname, city, oname, contactno, students, perc, idx)
+    query = query % (sname, city, oname, contactno, students,afees,totalfees, perc, idx)
 
     with engine.connect() as con:
         rs = con.execute(query)

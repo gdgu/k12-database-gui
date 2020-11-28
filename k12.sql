@@ -5,5 +5,7 @@ CREATE TABLE k12 (
     field3 VARCHAR(1000),
     field4 VARCHAR(1000),
     field5 VARCHAR(1000),
-    field6 VARCHAR(1000)
+    field6 VARCHAR(1000),
+    field7 VARCHAR(1000),
+    field8 VARCHAR(1000)
 );

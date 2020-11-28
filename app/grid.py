@@ -177,11 +177,6 @@ class PythonGrid():
 
         return
 
-
-    def __del__(self):
-        if self.db.open:
-            self.db.close()
-
     
     def display_script_includeonce(self):
         return """<link rel="stylesheet" id="theme-custom-style" type="text/css" media="screen" href="/static/css/bootstrap/jquery-ui.css" />

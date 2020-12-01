@@ -29,7 +29,7 @@ def index():
     grid.set_col_title('field8', '% of Education Service Fee')
     grid.set_col_hidden(['uid'])
     grid.set_pagesize(50)
-    grid.set_dimension(1000, 400)
+    grid.set_dimension(1000, 450)
     grid.enable_search(True)
     grid.enable_rownumbers(True)
     grid.enable_pagecount(True)

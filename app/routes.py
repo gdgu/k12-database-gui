@@ -4,6 +4,8 @@ from app.grid import PythonGrid
 from app.data import PythonGridDbData
 from app.export import PythonGridDbExport
 
+from datetime import datetime
+
 import sqlalchemy
 
 engine = sqlalchemy.create_engine(
@@ -27,9 +29,17 @@ def index():
     grid.set_col_title('field6', 'Annual Fees')
     grid.set_col_title('field7', 'Total Fees Amount')
     grid.set_col_title('field8', '% of Education Service Fee')
+    grid.set_col_title('field9', 'Due for 2019-20')
+    grid.set_col_title('field10', 'Due for 2020-21')
+    grid.set_col_title('field11', 'Last Updated On')
     grid.set_col_hidden(['uid'])
-    grid.set_pagesize(50)
-    grid.set_dimension(1000, 450)
+
+    grid.set_col_width('field11', 200)
+    grid.set_col_width('field1', 200)
+
+
+    grid.set_pagesize(20)
+    grid.set_dimension(1100, 500)
     grid.enable_search(True)
     grid.enable_rownumbers(True)
     grid.enable_pagecount(True)
@@ -69,6 +79,12 @@ def add_id():
     perc = request.args['perc']
     afees = request.args['afees']
 
+    due2019 = request.args['due2019']
+    due2020 = request.args['due2020']
+
+    now = datetime.now()
+    change_time = now.strftime("%d/%m/%Y %H:%M:%S")
+
     totalfees = "ERROR"
     try:
         totalfees =  int(students) * int(afees)
@@ -78,8 +94,8 @@ def add_id():
 
 
 
-    query = """INSERT INTO k12 (field1, field2, field3, field4, field5, field6, field7, field8) VALUES
-    ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')""" % (sname, city, oname, contactno, students,afees, totalfees, perc)
+    query = """INSERT INTO k12 (field1, field2, field3, field4, field5, field6, field7, field8, field9, field10, field11) VALUES
+    ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')""" % (sname, city, oname, contactno, students,afees, totalfees, perc, due2019,due2020, change_time)
 
     with engine.connect() as con:
         rs = con.execute(query)
@@ -111,6 +127,8 @@ def edit_serv(id):
             data["field5"] = x[5]
             data["field6"] = x[6]
             data["field8"] = x[8]
+            data["field9"] = x[9]
+            data["field10"] = x[10]
 
     return render_template('edit.html', data=data)
 
@@ -126,13 +144,21 @@ def edit_id():
     perc = request.args['perc']
     afees = request.args['afees']
 
+
+    due2019 = request.args['due2019']
+    due2020 = request.args['due2020']
+
+    now = datetime.now()
+    change_time = now.strftime("%d/%m/%Y %H:%M:%S")
+
+
     totalfees =  int(students) * int(afees)
 
 
     query = """UPDATE k12 SET 
-    field1 = '%s', field2 = '%s', field3 = '%s', field4 = '%s', field5 = '%s', field6 = '%s' , field7 = '%s' , field8 = '%s' 
+    field1 = '%s', field2 = '%s', field3 = '%s', field4 = '%s', field5 = '%s', field6 = '%s' , field7 = '%s' , field8 = '%s', field9 = '%s', field10 = '%s', field11 = '%s'
     WHERE uid = %s"""
-    query = query % (sname, city, oname, contactno, students,afees,totalfees, perc, idx)
+    query = query % (sname, city, oname, contactno, students,afees,totalfees, perc, due2019,due2020, change_time, idx)
 
     with engine.connect() as con:
         rs = con.execute(query)

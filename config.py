@@ -8,8 +8,13 @@ class Config(object):
     ABS_PATH = '/'
 
 
+
+    """
+    
     DB_PATH = os.environ['DATABASE_URL']
     db_creds = urlparse(DB_PATH)
+
+
 
 
     # postgres
@@ -32,4 +37,3 @@ class Config(object):
     PYTHONGRID_DB_SOCKET = ''
     PYTHONGRID_DB_CHARSET = 'utf-8'
 
-    """
